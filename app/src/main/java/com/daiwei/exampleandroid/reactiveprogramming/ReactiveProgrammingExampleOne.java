@@ -4,6 +4,7 @@ import android.util.Log;
 import com.daiwei.exampleandroid.ReactiveProgrammingActivity;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
+import io.reactivex.SingleSource;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.SingleSubject;
@@ -11,7 +12,7 @@ import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
-public final class ReactiveProgrammingExampleOne {
+public class ReactiveProgrammingExampleOne {
 
   private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
   private final Single<Integer> mSingle;
@@ -31,7 +32,7 @@ public final class ReactiveProgrammingExampleOne {
 
     mSingle.flatMap(ignored -> {
       Log.d(ReactiveProgrammingActivity.LOG_TAG, "Run hello logic");
-      return Single.timer(2, TimeUnit.SECONDS).map(ignored2 -> "Hello");
+      return createInnerSingle();
     })
         .doOnEvent((String v, Throwable t) -> {
           Log.d(ReactiveProgrammingActivity.LOG_TAG, "Hello single event");
@@ -60,5 +61,9 @@ public final class ReactiveProgrammingExampleOne {
         });
 
     return subject;
+  }
+
+  protected SingleSource<String> createInnerSingle() {
+    return Single.timer(2, TimeUnit.SECONDS).map(ignored2 -> "Hello");
   }
 }

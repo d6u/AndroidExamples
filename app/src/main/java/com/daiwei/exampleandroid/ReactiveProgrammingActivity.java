@@ -17,22 +17,22 @@ public class ReactiveProgrammingActivity extends AppCompatActivity {
 
   private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
   private final Handler mHandler = new Handler(Looper.getMainLooper());
-  private @Nullable ReactiveProgrammingExampleOne mTestClass;
+  private @Nullable ReactiveProgrammingExampleOne mReactiveProgrammingExampleOne;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_reactive_programming);
 
-    mTestClass = new ReactiveProgrammingExampleOne();
+    mReactiveProgrammingExampleOne = new ReactiveProgrammingExampleOne();
   }
 
   @Override
   protected void onStart() {
     super.onStart();
 
-    assert mTestClass != null;
-    Single<String> single = mTestClass.doSomethingOnce();
+    assert mReactiveProgrammingExampleOne != null;
+    Single<String> single = mReactiveProgrammingExampleOne.doSomethingOnce();
 
     mHandler.postDelayed(() -> {
       Disposable disposable = single.subscribe(
@@ -62,8 +62,8 @@ public class ReactiveProgrammingActivity extends AppCompatActivity {
 
     mHandler.removeCallbacksAndMessages(null);
 
-    assert mTestClass != null;
-    mTestClass.destroy();
+    assert mReactiveProgrammingExampleOne != null;
+    mReactiveProgrammingExampleOne.destroy();
 
     super.onDestroy();
   }
